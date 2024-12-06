@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen>
         final lastTransaction = transactions.last;
         setState(() {
           lastPaymentAmount = lastTransaction.amount.toString();
-          lastPaymentDate = formatDate(lastTransaction.date);
+          lastPaymentDate = formatDate(lastTransaction.date);   
         });
       }
     } catch (e) {

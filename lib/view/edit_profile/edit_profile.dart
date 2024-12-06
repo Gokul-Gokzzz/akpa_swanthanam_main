@@ -21,7 +21,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<void> pickImage() async {
     try {
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         File tempImage = File(pickedFile.path);
@@ -32,7 +33,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Image must be passport size and less than 100KB')),
+            const SnackBar(
+                content:
+                    Text('Image must be passport size and less than 100KB')),
           );
         }
       }

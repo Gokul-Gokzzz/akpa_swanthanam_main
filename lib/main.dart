@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final isLoggedIn = snapshot.data ?? false;
-            return isLoggedIn ? const BottombarScreens() : const WelcomeScreen();
+            return isLoggedIn
+                ? const BottombarScreens()
+                : const WelcomeScreen();
           }
         },
       ),
