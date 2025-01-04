@@ -27,10 +27,10 @@ class __BottombarScreensState extends State<BottombarScreens> {
 
     pages = [
       const HomeScreen(),
-      const DashBoardScreen(),
-      const TransactionScreen(),
-      const HelpProvidedList(),
-      const ProfileScreen(),
+      // const DashBoardScreen(),
+      // const TransactionScreen(),
+      // const HelpProvidedList(),
+      // const ProfileScreen(),
     ];
   }
 

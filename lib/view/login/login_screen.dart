@@ -1,9 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
-
 import 'dart:developer';
 import 'package:akpa/service/api_service.dart';
 import 'package:akpa/service/store_service.dart';
-import 'package:akpa/view/bottom_bar/bottom_bar.dart';
+import 'package:akpa/view/home_screen/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ApiService apiService = ApiService();
@@ -34,25 +32,23 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    String username = usernameController.text;
+    String phone = phoneController.text;
     String password = passwordController.text;
 
-    final loginResponse = await apiService.login(username, password);
+    final loginResponse = await apiService.loginUser(phone, password);
 
     setState(() {
       isLoading = false;
     });
 
     if (loginResponse != null) {
-      await storeService.setKeys('username', username);
+      await storeService.setKeys('phone', phone);
       await storeService.setKeys('password', password);
-
-      await apiService.updateDeviceToken(username);
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const BottombarScreens(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     } else {
@@ -77,26 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 '1) 2022-2023 വർഷത്തിൽ അംഗത്വമുള്ള എല്ലാ എ.കെ.പി.എ. അംഗങ്ങളെയും പ്രായഭേദമന്യേ ഈ പദ്ധതിയിൽ ചേർത്തിട്ടുണ്ട് .',
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
-              Text(
-                '2)എന്നാൽ പുതുതായി സംഘടനയിൽ അംഗത്വം എടുക്കുന്ന 55 വയസ്സ് കഴിഞ്ഞ അംഗങ്ങളെ ഈ പദ്ധതിയിൽ ഉൾപെടുത്തുന്നതല്ല. ',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 10),
-              Text(
-                '3)തുടർച്ചയായി 5 വർഷം എ കെ പി എ മെമ്പർഷിപ്പിലുള്ള 70 വയസ്സ് തികയാത്ത അംഗങ്ങളെ 2024 -25 വർഷത്തിൽ സാന്ത്വനം പദ്ധതിയിൽ ചേർക്കാവുന്നതും തുടർ വർഷങ്ങളിൽ എ കെ പി എ അംഗങ്ങളായ 55 വയസ്സ് കഴിഞ്ഞവർക്കും ഡയാലിസിസ്, ക്യാൻസർ നിലവിൽ പക്ഷാഘാതം,  ഹൃദയസംബന്ധമായി ചികിത്സയിൽ കഴിയുന്നവരെയും ഈ പദ്ധതിയിൽ ഉൾപ്പെടുത്തുന്നതല്ല.',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 10),
-              Text(
-                '4) സീറോ ബാലൻസ് ഉള്ള അംഗങ്ങൾക്ക്  പദ്ധതി ആനുകൂല്യം ലഭിക്കുകയും എന്നാൽ മൈനസ് ബാലൻസ് ഉള്ള അംഗങ്ങൾക്ക് പദ്ധതി ആനുകൂല്യത്തിന് അർഹത ഉണ്ടായിരിക്കുന്നതല്ല.',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 10),
-              Text(
-                '5) പദ്ധതിയിലെ അംഗങ്ങളുടെ മരണം മൂലവും, അംഗങ്ങൾ പിന്മാറുന്നതു മൂലവും  പദ്ധതിയിൽ നിന്നും അംഗങ്ങളുടെ ക്രമാതീതമായ കുറവ് ഉണ്ടാകുന്നത് കാരണം കരുതൽ ധനം കഴിയുന്ന സാഹചര്യം ഉണ്ടായാൽ പദ്ധതിയിൽ നിലനിൽക്കുന്ന അംഗങ്ങളുടെ എണ്ണം അനുസരിച്ചുള്ള തുകയായിരിക്കും മരണപ്പെടുന്ന അംഗത്തിന്റെ കുടുംബത്തിന് നൽകുക',
-                style: TextStyle(fontSize: 16),
-              ),
+              // Add other terms here...
             ],
           ),
         ),
@@ -109,6 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void navigateToPasswordReset() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PasswordResetScreen()),
     );
   }
 
@@ -136,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: TextFormField(
-                  controller: usernameController,
+                  controller: phoneController,
                   style: const TextStyle(color: Colors.black),
                   decoration: const InputDecoration(
                     labelText: 'User Name',
@@ -194,18 +178,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     TextButton(
-              //       onPressed: () {},
-              //       child: const Text(
-              //         'Forgot password?',
-              //         style: TextStyle(color: Colors.black),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: navigateToPasswordReset,
+                    child: const Text(
+                      'Forgot password?',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 10),
               isLoading
                   ? const CircularProgressIndicator(color: Colors.black)
@@ -229,35 +213,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
               const SizedBox(height: 20),
-              // const Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text(
-              //       'Don’t have an account? ',
-              //       style: TextStyle(fontSize: 12, color: Colors.black),
-              //     ),
-              //     // GestureDetector(
-              //     //   onTap: () async {
-              //     //     final url = Uri.parse(
-              //     //         'https://lifelinekeralatrust.com/member/auth/register');
-              //     //     if (await canLaunchUrl(url)) {
-              //     //       await launchUrl(url);
-              //     //       log('URL opened: $url');
-              //     //     } else {
-              //     //       log('Could not launch URL');
-              //     //     }
-              //     //   },
-              //     //   child: const Text(
-              //     //     'Register now',
-              //     //     style: TextStyle(
-              //     //         fontSize: 18,
-              //     //         color: Colors.black,
-              //     //         decoration: TextDecoration.underline),
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
-              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -279,6 +234,59 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class PasswordResetScreen extends StatelessWidget {
+  const PasswordResetScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Password Reset'),
+        backgroundColor: Colors.black,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter your email to reset your password:',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                minimumSize: const Size(double.infinity, 50),
+              ),
+              onPressed: () {
+                // Implement the password reset logic here
+                log('Password reset link sent to: ${emailController.text}');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Password reset link sent to your email'),
+                  ),
+                );
+              },
+              child: const Text('Reset Password'),
+            ),
+          ],
         ),
       ),
     );

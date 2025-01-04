@@ -34,37 +34,37 @@ class _HomeScreenState extends State<HomeScreen>
   late Animation<double> opacityAnimation;
 
   @override
-  void initState() {
-    super.initState();
-    config = ApiService().fetchConfig();
-    userProfile = ApiService().getUserProfile();
-    transactionList = ApiService().getTransactionList();
-    loadUnreadNotificationsCount();
-    loadLastTransactionDetails();
-    setupBlinkingAnimation();
-  }
+  // void initState() {
+  //   super.initState();
+  //   config = ApiService().fetchConfig();
+  //   userProfile = ApiService().getUserProfile();
+  //   transactionList = ApiService().getTransactionList();
+  //   loadUnreadNotificationsCount();
+  //   loadLastTransactionDetails();
+  //   setupBlinkingAnimation();
+  // }
 
-  Future<void> loadUnreadNotificationsCount() async {
-    final count = await NotificationService().getUnreadCount();
-    setState(() {
-      unreadCount = count;
-    });
-  }
+  // Future<void> loadUnreadNotificationsCount() async {
+  //   final count = await NotificationService().getUnreadCount();
+  //   setState(() {
+  //     unreadCount = count;
+  //   });
+  // }
 
-  Future<void> loadLastTransactionDetails() async {
-    try {
-      final transactions = await ApiService().getTransactionList();
-      if (transactions.isNotEmpty) {
-        final lastTransaction = transactions.last;
-        setState(() {
-          lastPaymentAmount = lastTransaction.amount.toString();
-          lastPaymentDate = formatDate(lastTransaction.date);   
-        });
-      }
-    } catch (e) {
-      // Log or handle error here
-    }
-  }
+  // Future<void> loadLastTransactionDetails() async {
+  //   try {
+  //     final transactions = await ApiService().getTransactionList();
+  //     if (transactions.isNotEmpty) {
+  //       final lastTransaction = transactions.last;
+  //       setState(() {
+  //         lastPaymentAmount = lastTransaction.amount.toString();
+  //         lastPaymentDate = formatDate(lastTransaction.date);
+  //       });
+  //     }
+  //   } catch (e) {
+  //     // Log or handle error here
+  //   }
+  // }
 
   String formatDate(String dateString) {
     try {
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: const MyDrawer(),
+        // drawer: const MyDrawer(),
         backgroundColor: Colors.white,
         body: FutureBuilder(
           future: Future.wait([config, userProfile]),
@@ -266,84 +266,84 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     const SizedBox(height: 20),
                     if (userProfile.balanceAmount < 0)
-                      buildCard(
-                        context,
-                        'Transactions',
-                        '',
-                        'assets/transactionimg.png',
-                        LinearGradient(
-                          colors: [Color(0xFF64B5F6), Color(0xFF1E88E5)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                      // buildCard(
+                      //   context,
+                      //   'Transactions',
+                      //   '',
+                      //   'assets/transactionimg.png',
+                      // LinearGradient(
+                      //   colors: [Color(0xFF64B5F6), Color(0xFF1E88E5)],
+                      //   begin: Alignment.topLeft,
+                      //   end: Alignment.bottomRight,
+                      // ),
+                      // Colors.white,
+                      // const TransactionScreen(),
+                      // ),
+                      if (userProfile.balanceAmount >= 0) ...[
+                        Text(
+                          'Last Payment Rs: $lastPaymentAmount on $lastPaymentDate',
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black),
                         ),
-                        Colors.white,
-                        const TransactionScreen(),
-                      ),
-                    if (userProfile.balanceAmount >= 0) ...[
-                      Text(
-                        'Last Payment Rs: $lastPaymentAmount on $lastPaymentDate',
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                      const SizedBox(height: 10),
-                      buildCard(
-                        context,
-                        'Dashboard',
-                        '',
-                        'assets/dashboard.jpg',
-                        LinearGradient(
-                          colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        Colors.white,
-                        const DashBoardScreen(),
-                      ),
-                      const SizedBox(height: 10),
-                      buildCard(
-                        context,
-                        'Transactions',
-                        '',
-                        'assets/transactionimg.png',
-                        LinearGradient(
-                          colors: [Color(0xFF64B5F6), Color(0xFF1E88E5)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        Colors.white,
-                        const TransactionScreen(),
-                      ),
-                      const SizedBox(height: 10),
-                      buildCard(
-                        context,
-                        'Help Provided list',
-                        '',
-                        'assets/help img.png',
-                        LinearGradient(
-                          colors: [Color(0xFF66BB6A), Color(0xFF388E3C)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        Colors.white,
-                        const HelpProvidedList(),
-                      ),
-                      const SizedBox(height: 10),
-                      buildCard(
-                        context,
-                        'Death list',
-                        '',
-                        'assets/death list.jpg',
-                        LinearGradient(
-                          colors: [Color(0xFFEF5350), Color(0xFFC62828)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        Colors.white,
-                        const DeathListPage(),
-                      ),
-                    ]
+                        const SizedBox(height: 10),
+                        // buildCard(
+                        //   context,
+                        //   'Dashboard',
+                        //   '',
+                        //   'assets/dashboard.jpg',
+                        //   LinearGradient(
+                        //     colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight,
+                        //   ),
+                        //   Colors.white,
+                        //   const DashBoardScreen(),
+                        // ),
+                        // const SizedBox(height: 10),
+                        // buildCard(
+                        //   context,
+                        //   'Transactions',
+                        //   '',
+                        //   'assets/transactionimg.png',
+                        //   LinearGradient(
+                        //     colors: [Color(0xFF64B5F6), Color(0xFF1E88E5)],
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight,
+                        //   ),
+                        //   Colors.white,
+                        //   const TransactionScreen(),
+                        // ),
+                        // const SizedBox(height: 10),
+                        // buildCard(
+                        //   context,
+                        //   'Help Provided list',
+                        //   '',
+                        //   'assets/help img.png',
+                        //   LinearGradient(
+                        //     colors: [Color(0xFF66BB6A), Color(0xFF388E3C)],
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight,
+                        //   ),
+                        //   Colors.white,
+                        //   const HelpProvidedList(),
+                        // ),
+                        // const SizedBox(height: 10),
+                        // buildCard(
+                        //   context,
+                        //   'Death list',
+                        //   '',
+                        //   'assets/death list.jpg',
+                        //   LinearGradient(
+                        //     colors: [Color(0xFFEF5350), Color(0xFFC62828)],
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight,
+                        //   ),
+                        //   Colors.white,
+                        //   const DeathListPage(),
+                        // ),
+                      ]
                   ],
                 ),
               ),
